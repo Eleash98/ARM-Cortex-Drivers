@@ -48,7 +48,7 @@ void RCC_voidClockInit(void){
 			while(!GET_BIT(RCC_CR,25));
 			#if RCC_PLL_HSE_TYPE == CRYSTAL
 				RCC_CR = 0x01010000;			//(1<<HSEON)|(1<<PLLON) = 0x01010000
-			#elif RCC_PLL_HSE_TYPE == RCC
+			#elif RCC_PLL_HSE_TYPE == RC
 				RCC_CR = 0x01050000;			//(1<<HSEON)|(1<<HSEBYP)|(1<<PLLON) = 0x01050000
 			#else 
 				#error ("Wrong PLL options!")
