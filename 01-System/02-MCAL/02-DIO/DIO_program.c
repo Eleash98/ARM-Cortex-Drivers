@@ -1,6 +1,10 @@
 //AUTHOR	:Mohamed Gamal
 //VERSION	:V01
 //DATE		:11-August-2020
+
+//Version 	:V02
+//Date		:17-August-2020
+/* Added DIO_voidSetPortDirection, DIO_voidSetPortValue */
 #include "STD_TYPES.h"
 #include "BIT_MATH.h"
 #include "DIO_interface.h"
@@ -91,4 +95,39 @@ u8 DIO_voidGetPinValue(u8 Copy_u8Port, u8 Copy_u8Pin){
 		default:	break;
 	}
 	return LOC_u8Result;
+}
+
+void DIO_voidSetPortDirection(u8 Copy_u8Port, u8 Copy_u8Mode){
+	u32 LOC_u32Mode = 0;
+	for (u8 i=0;i<7;i++)
+		LOC_u32Mode = (LOC_u32Mode << 4) | Copy_u8Mode;
+	switch(Copy_u8Port){
+		case DIO_PORTA:
+			DIO_PORTA &= 0xffff0000;
+			DIO_PORTA_CRL |= LOC_u32Mode;
+			break;
+		case DIO_PORTB:
+			DIO_PORTA &= 0xffff0000;
+			DIO_PORTB_CRL |= LOC_u32Mode;
+			break;
+		case DIO_PORTC:
+			DIO_PORTA &= 0xffff0000;
+			DIO_PORTC_CRL |= LOC_u32Mode;
+			break;
+		default: /*return error*/ break;
+	}
+}
+void DIO_voidSetPortValue(u8 Copy_u8Port, u8 Copy_u8Value){
+	switch (Copy_u8Port){
+		case DIO_PORTA:
+			DIO_PORTA_ODR = Copy_u8Value;
+			break;
+		case DIO_PORTB:
+			DIO_PORTB_ODR = Copy_u8Value;
+			break;
+		case DIO_PORTC:
+			DIO_PORTC_ODR = Copy_u8Value;
+			break;
+		default: /*return error*/ break;
+	}
 }

@@ -2,12 +2,18 @@
 //VERSION	:V01
 //DATE		:11-August-2020
 
+//Version 	:V02
+//Date		:17-August-2020
+/* Added DIO_voidSetPortDirection, DIO_voidSetPortValue 
+   Modified DIO_PORTA, DIO_PORTB, DIO_PORTC values*/
+
+
 #ifndef DIO_INTERFACE_H
 #define DIO_INTERFACE_H
 
-#define DIO_PORTA	0
-#define	DIO_PORTB	1
-#define DIO_PORTC	2
+#define DIO_PORTA	2
+#define	DIO_PORTB	3
+#define DIO_PORTC	4
 
 #define PIN0	0
 #define PIN1	1
@@ -56,17 +62,14 @@
 #define DIO_LOW				0
 
 
-
-
-
-
-
-
 void DIO_voidSetPinDirection(u8 Copy_u8Port, u8 Copy_u8Pin, u8 Copy_u8Mode);
 
 void DIO_voidSetPinValue(u8 Copy_u8Port, u8 Copy_u8Pin, u8 Copy_u8Value);
 
 u8 DIO_voidGetPinValue(u8 Copy_u8Port, u8 Copy_u8Pin);
 
+void DIO_voidSetPortDirection(u8 Copy_u8Port, u8 Copy_u8Mode);
+
+void DIO_voidSetPortValue(u8 Copy_u8Port, u8 Copy_u8Value);
 
 #endif
