@@ -2,6 +2,11 @@
 //Date	:	15 August 2020
 //Version:	V01
 
+//Version	:	V02
+//Date		:	21-August 2020
+/*Version 2 Has private structs so the user cannot change the LED specs*/
+
+
 #ifndef LED_INTERFACE_H
 #define LED_INTERFACE_H
 
@@ -9,22 +14,13 @@
 #define ACTIVE_LOW		0
 
 
-struct LED {
-	u8 PIN,
-	u8 Port,
-	u8 Config
-};
-typedef struct LED LED;
+ void *LED_voidAttachLEDToPin(u8 Copy_u8Pin, u8 Copy_u8Port, u8 Copy_u8LEDConfig);
 
+ void LED_voidDisAttachLEDFromPin(void *L);
 
-LED *LED_voidAttachLEDToPin(u8 Copy_u8Pin, u8 Copy_u8Port, u8 Copy_u8LEDConfig);
+ void LED_voidOn(void *L);
 
-void LED_DisAttachLEDFromPin(LED *L);
+ void LED_voidOff(void *L);
 
-void LED_voidOn(LED *L);
-
-void LED_voidOff(LED *L);
-
-void LED_voidToggle(LED *L)
-
+ void LED_voidToggle(void *L);
 #endif
