@@ -8,6 +8,10 @@
 #include "NVIC_private.h"
 #include "NVIC_config.h"
 
+void MNVIC_voidInit(void){
+	#define SCB_AIRCR		*((volatile u32*)(0xE000ED0C))
+	SCB_AIRCR = MNVIC_GROUP_SUB_DISTRIBUTION;
+}
 
 void MNVIC_voidEnableInterrupt(u8 Copy_u8IntNumber){
 	if (Copy_u8IntNumber <=31)
@@ -50,7 +54,7 @@ void MNVIC_voidClearPendingFlag(u8 Copy_u8IntNumber){
 	}
 }
 u8	 MNVIC_u8GetActiveFlag(u8 Copy_u8IntNumber){
-	u8 LOC_NVICResult;
+	u8 LOC_NVICResult = 0;
 	if (Copy_u8IntNumber <=31)
 		LOC_NVICResult = GET_BIT(NVIC_IABR0,Copy_u8IntNumber);
 	else if(Copy_u8IntNumber <=59)
@@ -59,4 +63,16 @@ u8	 MNVIC_u8GetActiveFlag(u8 Copy_u8IntNumber){
 		//return error
 	}
 	return LOC_NVICResult;
+}
+
+void MNVIC_voidSetPriority(s8 Copy_s8IntID, u8 Copy_u8GroupPriority, u8 Copy_u8SubPriority, u32 Copy_u32Group ){
+	u8 Local_NumberOfGroupBits = ((Copy_u32Group - 0x05FA0300)/256);
+	u8 Local_u8Priority = Copy_u8SubPriority|(Copy_u8GroupPriority<<Local_NumberOfGroupBits);
+	/*check if core peripheral*/
+	
+	/*else, extirnal peripheral*/
+	if (Copy_s8IntID >= 0){
+		NVIC_IPR[Copy_s8IntID] = Local_u8Priority << 4;
+	}
+	//SCB_AIRCR	= Copy_u32Group;
 }

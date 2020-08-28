@@ -2,6 +2,11 @@
 //VERSION	:V01
 //DATE		:11-August-2020
 
+//Version	:V02
+//Date		:26 August 2020
+/*Used struct method in defining the registers*/
+
+
 #ifndef DIO_PRIVATE_H
 #define DIO_PRIVATE_H
 
@@ -10,8 +15,15 @@
 #define DIO_PORTB_BASE_ADDRESS	0x40010C00
 #define DIO_PORTC_BASE_ADDRESS	0x40011000
 
+typedef struct{
+	volatile u32 CRL,CRH,IDR,ODR,BSRR,BRR,LCKR;
+}DIO_t;
 
-/*PORTA Register definitions*/
+#define DIO_PORTA		((volatile DIO_t *)(DIO_PORTA_BASE_ADDRESS))
+#define DIO_PORTB		((volatile DIO_t *)(DIO_PORTB_BASE_ADDRESS))
+#define DIO_PORTC		((volatile DIO_t *)(DIO_PORTC_BASE_ADDRESS))
+/*
+/*PORTA Register definitions
 #define DIO_PORTA_CRL	(*(u32*)0x40010800)
 #define DIO_PORTA_CRH	(*(u32*)0x40010804)
 #define DIO_PORTA_IDR	(*(u32*)0x40010808)
@@ -20,7 +32,7 @@
 #define DIO_PORTA_BRR	(*(u32*)0x40010814)
 #define DIO_PORTA_LCKR	(*(u32*)0x40010818)
 
-/*PORTB Register definitions*/
+/*PORTB Register definitions
 #define DIO_PORTB_CRL	(*(u32*)0x40010C00)
 #define DIO_PORTB_CRH	(*(u32*)0x40010C04)
 #define DIO_PORTB_IDR	(*(u32*)0x40010C08)
@@ -29,7 +41,7 @@
 #define DIO_PORTB_BRR	(*(u32*)0x40010C14)
 #define DIO_PORTB_LCKR	(*(u32*)0x40010C18)
 
-/*PORTC Register definistions*/
+/*PORTC Register definistions
 #define DIO_PORTC_CRL	(*(u32*)0x40011000)
 #define DIO_PORTC_CRH	(*(u32*)0x40011004)
 #define DIO_PORTC_IDR	(*(u32*)0x40011008)
@@ -37,7 +49,7 @@
 #define	DIO_PORTC_BSRR	(*(u32*)0x40011010)
 #define DIO_PORTC_BRR	(*(u32*)0x40011014)
 #define DIO_PORTC_LCKR	(*(u32*)0x40011018)
-
+*/
 
 
 #endif

@@ -6,7 +6,21 @@
 #define RCC_PRIVATE_H
 
 /*Register definitions*/
+typedef struct{
+	volatile u32 CR,
+		CFGR,
+		CIR,
+		APB2RSTR,
+		APB1RSTR,
+		AHBENR,
+		APB2ENR,
+		APB1ENR,
+		BDCR,
+		CSR
+}RCC_t;
 
+#define RCC				((volatile RCC_t *)(0x40021000))
+/*
 #define RCC_CR          *((u32*)0x40021000)  //clock selection for processor
 #define RCC_CFGR        *((u32*)0x40021004)  //clock selection for processor
 #define RCC_CIR         *((u32*)0x40021008)
@@ -17,7 +31,7 @@
 #define RCC_APB1ENR     *((u32*)0x4002101C)   //E/D clocks for peripherals
 #define RCC_BDCR        *((u32*)0x40021020)
 #define RCC_CSR         *((u32*)0x40021024)
-
+*/
 /*Clock Types*/
 #define RCC_HSE_CRYSTAL     0
 #define RCC_HSE_RC          1
@@ -31,14 +45,7 @@
 #define FALSE					0
 #define CRYSTAL					1
 #define RC 						0
-/*RCC_CR BIT DIFINITIONS*/
-#define HSION   0
-#define HSIRDY  1
-#define HSITRIM 3
-#define HSICAL  8
-#define HSEON   16
-#define HSERDY  17
-#define PLLMUL  18
+
 
 /*RCC_CFGR BIT DIFINITIONS*/
 

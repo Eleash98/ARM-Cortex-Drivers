@@ -5,45 +5,52 @@
 //Version 	:V02
 //Date		:17-August-2020
 /* Added DIO_voidSetPortDirection, DIO_voidSetPortValue */
+
+//Version	:V03
+//Date		:26 August 2020
+/*Modified functions to use struct type register definitions*/
+
+
 #include "STD_TYPES.h"
 #include "BIT_MATH.h"
 #include "DIO_interface.h"
 #include "DIO_private.h"
 #include "DIO_config.h"
 
+
 void DIO_voidSetPinDirection(u8 Copy_u8Port, u8 Copy_u8Pin, u8 Copy_u8Mode){
 	switch(Copy_u8Port){
-		case DIO_PORTA:
+		case PORTA:
 			if (Copy_u8Pin<=7){
-				DIO_PORTA_CRL &= ~((0b1111) << (Copy_u8Pin*4));
-				DIO_PORTA_CRL |= (Copy_u8Mode) << (Copy_u8Pin*4));
+				DIO_PORTA->CRL &= ~((0xF) << (Copy_u8Pin*4));
+				DIO_PORTA->CRL |= (Copy_u8Mode) << (Copy_u8Pin*4);
 			}
 			else if (Copy_u8Pin <= 15){
 				Copy_u8Pin -= 8;
-				DIO_PORTA_CRH &= ~((0b1111) << (Copy_u8Pin*4));
-				DIO_PORTA_CRH |= (Copy_u8Mode) << (Copy_u8Pin*4));
+				DIO_PORTA->CRH &= ~((0xF) << (Copy_u8Pin*4));
+				DIO_PORTA->CRH |= (Copy_u8Mode) << (Copy_u8Pin*4);
 			}
 			break;
-		case DIO_PORTB:
+		case PORTB:
 			if (Copy_u8Pin<=7){
-				DIO_PORTB_CRL &= ~((0b1111) << (Copy_u8Pin*4));
-				DIO_PORTB_CRL |= (Copy_u8Mode) << (Copy_u8Pin*4));
+				DIO_PORTB->CRL &= ~((0xF) << (Copy_u8Pin*4));
+				DIO_PORTB->CRL |= (Copy_u8Mode) << (Copy_u8Pin*4);
 			}
 			else if (Copy_u8Pin <= 15){
 				Copy_u8Pin -= 8;
-				DIO_PORTB_CRH &= ~((0b1111) << (Copy_u8Pin*4));
-				DIO_PORTB_CRH |= (Copy_u8Mode) << (Copy_u8Pin*4));
+				DIO_PORTB->CRH &= ~((0xF) << (Copy_u8Pin*4));
+				DIO_PORTB->CRH |= (Copy_u8Mode) << (Copy_u8Pin*4);
 			}
 			break;
-		case DIO_PORTC:
+		case PORTC:
 			if (Copy_u8Pin<=7){
-				DIO_PORTC_CRL &= ~((0b1111) << (Copy_u8Pin*4));
-				DIO_PORTC_CRL |= (Copy_u8Mode) << (Copy_u8Pin*4));
+				DIO_PORTC->CRL &= ~((0xF) << (Copy_u8Pin*4));
+				DIO_PORTC->CRL |= (Copy_u8Mode) << (Copy_u8Pin*4);
 			}
 			else if (Copy_u8Pin <= 15){
 				Copy_u8Pin -= 8;
-				DIO_PORTC_CRH &= ~((0b1111) << (Copy_u8Pin*4));
-				DIO_PORTC_CRH |= (Copy_u8Mode) << (Copy_u8Pin*4));
+				DIO_PORTC->CRH &= ~((0xF) << (Copy_u8Pin*4));
+				DIO_PORTC->CRH |= (Copy_u8Mode) << (Copy_u8Pin*4);
 			}
 			break;
 		default: /*return error*/	break;
@@ -52,28 +59,28 @@ void DIO_voidSetPinDirection(u8 Copy_u8Port, u8 Copy_u8Pin, u8 Copy_u8Mode){
 
 void DIO_voidSetPin(u8 Copy_u8Port, u8 Copy_u8Pin){
 	switch (Copy_u8Port){
-		case DIO_PORTA:
-			DIO_PORTA_BSRR	= (1 << Copy_u8Pin);
+		case PORTA:
+			DIO_PORTA->BSRR	= (1 << Copy_u8Pin);
 			break;
-		case DIO_PORTB:
-			DIO_PORTB_BSRR	= (1 << Copy_u8Pin);
+		case PORTB:
+			DIO_PORTB->BSRR	= (1 << Copy_u8Pin);
 			break;
-		case DIO_PORTC:
-			DIO_PORTC_BSRR	= (1 << Copy_u8Pin);
+		case PORTC:
+			DIO_PORTC->BSRR	= (1 << Copy_u8Pin);
 			break;
 		default: break;
 	}
 }
 void DIO_voidClearPin(u8 Copy_u8Port, u8 Copy_u8Pin){
 	switch (Copy_u8Port){
-		case DIO_PORTA:
-			DIO_PORTA_BRR	= (1 << Copy_u8Pin);
+		case PORTA:
+			DIO_PORTA->BRR	= (1 << Copy_u8Pin);
 			break;
-		case DIO_PORTB:
-			DIO_PORTB_BRR	= (1 << Copy_u8Pin);
+		case PORTB:
+			DIO_PORTB->BRR	= (1 << Copy_u8Pin);
 			break;
-		case DIO_PORTC:
-			DIO_PORTC_BRR	= (1 << Copy_u8Pin);
+		case PORTC:
+			DIO_PORTC->BRR	= (1 << Copy_u8Pin);
 			break;
 		default: break;
 	}
@@ -83,14 +90,14 @@ void DIO_voidClearPin(u8 Copy_u8Port, u8 Copy_u8Pin){
 u8 DIO_voidGetPinValue(u8 Copy_u8Port, u8 Copy_u8Pin){
 	u8 LOC_u8Result = 0;
 	switch (Copy_u8Port){
-		case DIO_PORTA:
-			LOC_u8Result = GET_BIT(DIO_PORTA_IDR,Copy_u8Pin);
+		case PORTA:
+			LOC_u8Result = GET_BIT(DIO_PORTA->IDR,Copy_u8Pin);
 			break;
-		case DIO_PORTB:
-			LOC_u8Result = GET_BIT(DIO_PORTB_IDR,Copy_u8Pin);
+		case PORTB:
+			LOC_u8Result = GET_BIT(DIO_PORTB->IDR,Copy_u8Pin);
 			break;
-		case DIO_PORTC:
-			LOC_u8Result = GET_BIT(DIO_PORTC_IDR,Copy_u8Pin);
+		case PORTC:
+			LOC_u8Result = GET_BIT(DIO_PORTC->IDR,Copy_u8Pin);
 			break;
 		default:	break;
 	}
@@ -98,35 +105,37 @@ u8 DIO_voidGetPinValue(u8 Copy_u8Port, u8 Copy_u8Pin){
 }
 
 void DIO_voidSetPortDirection(u8 Copy_u8Port, u8 Copy_u8Mode){
-	u32 LOC_u32Mode = 0;
-	for (u8 i=0;i<7;i++)
-		LOC_u32Mode = (LOC_u32Mode << 4) | Copy_u8Mode;
+	u32 LOC_u32Mode = Copy_u8Mode;
+	for (u8 i=0;i<7;i++){
+		LOC_u32Mode = (LOC_u32Mode << 4);
+		LOC_u32Mode |= Copy_u8Mode;
+	}
 	switch(Copy_u8Port){
-		case DIO_PORTA:
-			DIO_PORTA &= 0xffff0000;
-			DIO_PORTA_CRL |= LOC_u32Mode;
+		case PORTA:
+			DIO_PORTA->CRL &= 0x0;
+			DIO_PORTA->CRL |= LOC_u32Mode;
 			break;
-		case DIO_PORTB:
-			DIO_PORTA &= 0xffff0000;
-			DIO_PORTB_CRL |= LOC_u32Mode;
+		case PORTB:
+			DIO_PORTB->CRL &= 0x0;
+			DIO_PORTB->CRL |= LOC_u32Mode;
 			break;
-		case DIO_PORTC:
-			DIO_PORTA &= 0xffff0000;
-			DIO_PORTC_CRL |= LOC_u32Mode;
+		case PORTC:
+			DIO_PORTC->CRL &= 0x0;
+			DIO_PORTC->CRL |= LOC_u32Mode;
 			break;
 		default: /*return error*/ break;
 	}
 }
 void DIO_voidSetPortValue(u8 Copy_u8Port, u8 Copy_u8Value){
 	switch (Copy_u8Port){
-		case DIO_PORTA:
-			DIO_PORTA_ODR = Copy_u8Value;
+		case PORTA:
+			DIO_PORTA->ODR = Copy_u8Value;
 			break;
-		case DIO_PORTB:
-			DIO_PORTB_ODR = Copy_u8Value;
+		case PORTB:
+			DIO_PORTB->ODR = Copy_u8Value;
 			break;
-		case DIO_PORTC:
-			DIO_PORTC_ODR = Copy_u8Value;
+		case PORTC:
+			DIO_PORTC->ODR = Copy_u8Value;
 			break;
 		default: /*return error*/ break;
 	}
@@ -134,14 +143,14 @@ void DIO_voidSetPortValue(u8 Copy_u8Port, u8 Copy_u8Value){
 
 void DIO_voidLockPin(u8 Copy_u8Port, u8 Copy_u8Pin){
 	switch (Copy_u8Port){
-		case DIO_PORTA:
-			DIO_PORTA_LCKR	= (1 << Copy_u8Pin);
+		case PORTA:
+			DIO_PORTA->LCKR	= (1 << Copy_u8Pin);
 			break;
-		case DIO_PORTB:
-			DIO_PORTB_LCKR	= (1 << Copy_u8Pin);
+		case PORTB:
+			DIO_PORTB->LCKR	= (1 << Copy_u8Pin);
 			break;
-		case DIO_PORTC:
-			DIO_PORTC_LCKR	= (1 << Copy_u8Pin);
+		case PORTC:
+			DIO_PORTC->LCKR	= (1 << Copy_u8Pin);
 			break;
 		default: break;
 	}
@@ -149,13 +158,22 @@ void DIO_voidLockPin(u8 Copy_u8Port, u8 Copy_u8Pin){
 void DIO_voidSetPullResistor(u8 Copy_u8Port, u8 Copy_u8Pin, u8 Copy_u8Mode){
 	switch (Copy_u8Port){
 		case PORTA:
-			Copy_u8Mode == PULL_UP ? DIO_PORTA_ODR |= (1<<Copy_u8Pin); : DIO_PORTA_ODR &= ~(1<<Copy_u8Pin);
+			if (Copy_u8Mode == PULL_UP)
+				DIO_PORTA->ODR |= (1<<Copy_u8Pin);
+			else
+				DIO_PORTA->ODR &= ~(1<<Copy_u8Pin);
 			break;
 		case PORTB:
-			Copy_u8Mode == PULL_UP ? DIO_PORTB_ODR |= (1<<Copy_u8Pin); : DIO_PORTB_ODR &= ~(1<<Copy_u8Pin);
+			if(Copy_u8Mode == PULL_UP)
+				DIO_PORTB->ODR |= (1<<Copy_u8Pin);
+			else
+				DIO_PORTB->ODR &= ~(1<<Copy_u8Pin);
 			break;
 		case PORTC:
-			Copy_u8Mode == PULL_UP ? DIO_PORTC_ODR |= (1<<Copy_u8Pin); : DIO_PORTC_ODR &= ~(1<<Copy_u8Pin);
+			if(Copy_u8Mode == PULL_UP)
+				DIO_PORTC->ODR |= (1<<Copy_u8Pin);
+			else
+				DIO_PORTC->ODR &= ~(1<<Copy_u8Pin);
 			break;
 		default:	/*return error*/ break;
 	}
